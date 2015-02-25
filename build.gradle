@@ -1,0 +1,29 @@
+apply plugin: 'java'
+
+version = 1.0
+
+repositories {
+    maven {
+        url "http://maven.top-q.co.il/content/repositories/snapshots/"
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        cacheChangingModulesFor 0, 'seconds'
+        cacheDynamicVersionsFor 0, 'seconds'
+    }
+}
+
+dependencies {
+    compile('il.co.topq.difido:difido-reports-server:1.0-SNAPSHOT')
+    compile('il.co.topq.difido:difido-reports-common:0.5-SNAPSHOT')
+
+
+}
+task(runSimple, dependsOn: 'classes', type: JavaExec) {
+            main = 'il.co.topq.report.Main'
+            classpath = sourceSets.main.runtimeClasspath
+}
+
+defaultTasks 'runSimple'
