@@ -1,5 +1,5 @@
-projectName = "difido-repo"
-group = "com.kenshoo.${projectName}"
+projName = "difido-repo"
+group = "com.kenshoo.${projName}"
 
 apply plugin: 'maven'
 apply plugin: 'java'
@@ -28,7 +28,7 @@ dependencies {
 //}
 
 project.ext {
-    jarName = "$rootDir/build/libs/${projectName}-${version}.jar"
+    jarName = "$rootDir/build/libs/${projName}-${version}.jar"
     mainClass = "il.co.topq.report.Main"
 }
 
@@ -56,11 +56,11 @@ fatJarPrepareFiles {
 }
 task stageArtifacts(type: Copy) {
     stagingDir.mkdir()
-    into new File(stagingDir, "/opt/${projectName}")
+    into new File(stagingDir, "/opt/${projName}")
     from 'build/libs'
 }
 task stageStartScript << {
-    new File(stagingDir, "opt/${projectName}/start").withWriter("UTF-8") {
+    new File(stagingDir, "opt/${projName}/start").withWriter("UTF-8") {
         it.println "#!/usr/bin/env sh"
         it.println "exec java \$* -jar ${project.name}-${project.version}.jar server"
     }
