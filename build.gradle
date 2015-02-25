@@ -1,4 +1,4 @@
-projName = "difido-repo"
+def projName = "difido-repo"
 group = "com.kenshoo.${projName}"
 version = "1.0-SNAPSHOT"
 
