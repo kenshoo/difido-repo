@@ -1,24 +1,25 @@
 projName = "difido-repo"
 group = "com.kenshoo.${projName}"
-
-apply plugin: 'maven'
-apply plugin: 'java'
-apply plugin: 'fatjar'
-apply plugin: 'jacoco'
-apply plugin: 'fpm-packaging'
-
 version = "1.0-SNAPSHOT"
 
 repositories {
     maven {
         url "http://maven.top-q.co.il/content/repositories/snapshots/"
     }
+    jcenter()
 }
 
 dependencies {
     compile('il.co.topq.difido:difido-reports-server:1.0-SNAPSHOT')
     compile('il.co.topq.difido:difido-reports-common:0.5-SNAPSHOT')
+    classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
 }
+
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'eu.appsatori.fatjar'
+apply plugin: 'jacoco'
+apply plugin: 'fpm-packaging'
 //
 //configurations.all {
 //    resolutionStrategy {
