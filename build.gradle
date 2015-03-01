@@ -2,6 +2,11 @@ def projName = "difido-repo"
 group = "com.kenshoo.${projName}"
 def BUILD_NUMBER = project.hasProperty('BUILD_NUMBER') ? "$BUILD_NUMBER" : '0'
 project.version = "0.1.$BUILD_NUMBER"
+apply plugin: 'maven'
+apply plugin: 'java'
+apply plugin: 'eu.appsatori.fatjar'
+apply plugin: 'jacoco'
+apply plugin: 'fpm-packaging'
 
 repositories {
     maven {
@@ -10,17 +15,29 @@ repositories {
     jcenter()
 }
 
+
+buildscript {
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+        classpath 'com.kenshoo:gradle-fpm:0.4'
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+
 dependencies {
     compile('il.co.topq.difido:difido-reports-server:1.0-SNAPSHOT')
     compile('il.co.topq.difido:difido-reports-common:0.5-SNAPSHOT')
-    classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
 }
 
-apply plugin: 'maven'
-apply plugin: 'java'
-apply plugin: 'eu.appsatori.fatjar'
-apply plugin: 'jacoco'
-apply plugin: 'fpm-packaging'
+task wrapper(type: Wrapper) {
+   gradleVersion = '2.3'
+}
+
+
 //
 //configurations.all {
 //    resolutionStrategy {
@@ -69,18 +86,15 @@ task stageStartScript << {
     }
 }
 
-task stageFiles(dependsOn: [stageArtifacts, stageStartScript]) << {
-    println "staging debian files"
-}
+
 
 // configure plugin to package the staging dir we've
 // just created, and to declare java-7 dependency
-packaging {
-    dependencies = ['openjdk-7-jre']
-    baseDir = stagingDir
-}
+//task packaging {
+//   dependencies = ['openjdk-7-jre']
+//    baseDir = stagingDir
+//}
 
 fatJar.dependsOn jar
 build.dependsOn fatJar
-stageFiles.dependsOn build
-debian.dependsOn stageFiles
+
