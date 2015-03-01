@@ -1,6 +1,7 @@
 def projName = "difido-repo"
 group = "com.kenshoo.${projName}"
-version = "1.0-SNAPSHOT"
+def BUILD_NUMBER = project.hasProperty('BUILD_NUMBER') ? "$BUILD_NUMBER" : '0'
+project.version = "0.1.$BUILD_NUMBER"
 
 repositories {
     maven {
@@ -60,12 +61,14 @@ task stageArtifacts(type: Copy) {
     into new File(stagingDir, "/opt/${projName}")
     from 'build/libs'
 }
+
 task stageStartScript << {
     new File(stagingDir, "opt/${projName}/start").withWriter("UTF-8") {
         it.println "#!/usr/bin/env sh"
         it.println "exec java \$* -jar ${project.name}-${project.version}.jar server"
     }
 }
+
 task stageFiles(dependsOn: [stageArtifacts, stageStartScript]) << {
     println "staging debian files"
 }
