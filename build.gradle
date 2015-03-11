@@ -38,13 +38,12 @@ task wrapper(type: Wrapper) {
 }
 
 
-//
-//configurations.all {
-//    resolutionStrategy {
-//        cacheChangingModulesFor 0, 'seconds'
-//        cacheDynamicVersionsFor 0, 'seconds'
-//    }
-//}
+configurations.all {
+    resolutionStrategy {
+        cacheChangingModulesFor 0, 'seconds'
+        cacheDynamicVersionsFor 0, 'seconds'
+    }
+}
 
 project.ext {
     jarName = "$rootDir/build/libs/${projName}-${version}.jar"
